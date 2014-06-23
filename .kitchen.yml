@@ -1,0 +1,22 @@
+driver:
+  require_chef_omnibus: <%= ENV.fetch("CHEF_VERSION", "latest") %>
+  ssh_key: <%= File.expand_path("./test/support/keys/vagrant") %>
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-12.04
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[brightbox-ruby]
+      - recipe[minitest-handler]
+    attributes:
+      brightbox-ruby:
+        ruby_version: "2.1"
+        gem_packages:
+          - bundler
